@@ -4,8 +4,6 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-//#define LED_RED GPIO_NUM_2
-
 #define BTN 5
 
 #define DELAY_TIME 200
@@ -28,27 +26,18 @@ void button_config()
     gpio_isr_handler_add(BTN, gpio_isr_handler, NULL);
     printf("config complete\n");
 }
-/*
-void led_config()
-{
-    gpio_reset_pin(LED_RED);
-    gpio_set_direction(LED_RED, GPIO_MODE_OUTPUT);
-}
-*/
+
 void app_main()
 {   
     //uint8_t led_value = 0;
 
     button_config();
-    //led_config();
 
     while (1) {
         if (button_pressed) {
             printf("*\n");
             button_pressed = false;
 			printf("Button Pressed");
-            //led_value = !led_value;
-            //gpio_set_level(LED_RED, led_value);
         }
         vTaskDelay(DELAY_TIME / portTICK_PERIOD_MS);
     }

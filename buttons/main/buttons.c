@@ -3,6 +3,11 @@
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_timer.h"
+
+//variables to keep track of the timing of recent interrupts
+int64_t  button_time = 0;  
+int64_t  last_button_time = 0; 
 
 #define BTN 5
 
@@ -12,7 +17,12 @@ volatile bool button_pressed = false;
 
 static void gpio_isr_handler(void* arg) 
 {
-    button_pressed = true;
+	button_time = esp_timer_get_time();
+	if (button_time - last_button_time > 50)
+	{
+		button_pressed = true;
+		last_button_time = button_time;
+	}
 }
 
 void button_config()
