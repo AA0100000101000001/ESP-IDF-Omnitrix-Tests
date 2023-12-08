@@ -38,8 +38,6 @@ void button_config()
 }
 
 void app_main()
-{   
-    //uint8_t led_value = 0;
 
     button_config();
 
