@@ -25,6 +25,8 @@ volatile unsigned char cnt = 0;
 int64_t  button_time = 0;  
 int64_t  last_button_time = 0; 
 
+char mode = 1;
+
 static void btn_isr_handler(void* arg) 
 {
 	button_time = esp_timer_get_time();
@@ -105,6 +107,20 @@ void app_main()
         if (button_pressed) {
 			button_pressed = false;
 			ESP_LOGI(TAG, "Button Pressed\n");
+			
+			switch (mode) {
+				//Omnitrix is in start mode
+				case 1:
+					//Go to select alien mode
+					mode = 2;
+					break;
+				//Omnitrix is in select alien mode
+				case 2: 
+					//Go to start mode
+					mode = 1;
+					break;
+			}
+			ESP_LOGI(TAG, "mode %d", mode);
         }
 		else if (right_button_pressed) {
 			right_button_pressed = false;
@@ -117,6 +133,20 @@ void app_main()
 		else if (select_button_pressed) {
 			select_button_pressed = false;
 			ESP_LOGI(TAG, "Select Button Pressed\n");
+
+			switch (mode) {
+				//Omnitrix is in select alien mode
+				case 2:
+					//Go to transformation mode
+					mode = 3;
+					break;
+				//Omnitrix is in transformation mode
+				case 3:
+					//Go to start mode
+					mode = 1;
+					break;
+			}
+			ESP_LOGI(TAG, "mode %d", mode);
         }
         vTaskDelay(DELAY_TIME / portTICK_PERIOD_MS);
     }

@@ -25,7 +25,7 @@ volatile unsigned char cnt = 0;
 int64_t  button_time = 0;  
 int64_t  last_button_time = 0; 
 
-static void IRAM_ATTR btn_isr_handler(void* arg) 
+static void btn_isr_handler(void* arg) 
 {
 	button_time = esp_timer_get_time();
 	if (button_time - last_button_time > DELAY_TIME)
@@ -35,7 +35,7 @@ static void IRAM_ATTR btn_isr_handler(void* arg)
 	}
 }
 
-static void IRAM_ATTR right_btn_isr_handler(void* arg) 
+static void right_btn_isr_handler(void* arg) 
 {
 	button_time = esp_timer_get_time();
 	if (button_time - last_button_time > DELAY_TIME)
@@ -45,7 +45,7 @@ static void IRAM_ATTR right_btn_isr_handler(void* arg)
 	}
 }
 
-static void IRAM_ATTR left_btn_isr_handler(void* arg) 
+static void left_btn_isr_handler(void* arg) 
 {
 	button_time = esp_timer_get_time();
 	if (button_time - last_button_time > DELAY_TIME)
@@ -55,7 +55,7 @@ static void IRAM_ATTR left_btn_isr_handler(void* arg)
 	}
 }
 
-static void IRAM_ATTR select_btn_isr_handler(void* arg) 
+static void select_btn_isr_handler(void* arg) 
 {
 	button_time = esp_timer_get_time();
 	if (button_time - last_button_time > DELAY_TIME)
