@@ -13,6 +13,7 @@ static const char *TAG = "MAIN";
 #define BTN_LEFT 4 		//Encoder left
 #define BTN_SELECT 3 	//Encoder button
 
+#define ALIEN_NUMBER 11 //0-12
 #define DELAY_TIME 200
  
 volatile bool button_pressed = false;
@@ -26,6 +27,7 @@ int64_t  button_time = 0;
 int64_t  last_button_time = 0; 
 
 char mode = 1;
+int alienNo = 0;
 
 static void btn_isr_handler(void* arg) 
 {
@@ -125,10 +127,36 @@ void app_main()
 		else if (right_button_pressed) {
 			right_button_pressed = false;
 			ESP_LOGI(TAG, "Right Button Pressed\n");
+			
+			switch (mode) {
+				//Omnitrix is in select alien mode
+				case 2:
+					if ((alienNo  + 1)> ALIEN_NUMBER ) {
+						alienNo = 0;
+					}
+					else {
+						alienNo += 1;
+					}
+				ESP_LOGI(TAG, "alien: %d", alienNo);
+				break;
+			}
         }
 		else if (left_button_pressed) {
 			left_button_pressed = false;
 			ESP_LOGI(TAG, "Left Button Pressed\n");
+			
+			switch (mode) {
+				//Omnitrix is in select alien mode
+				case 2:
+					if ((alienNo - 1) < 0 ) {
+					alienNo = ALIEN_NUMBER;
+				}
+				else {
+					alienNo -= 1;
+				}
+				ESP_LOGI(TAG, "alien: %d", alienNo);
+				break;
+			}
         }
 		else if (select_button_pressed) {
 			select_button_pressed = false;
